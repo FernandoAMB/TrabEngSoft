@@ -10,11 +10,11 @@ package trabalhobiblioteca;
  * @author ferna
  */
 public class Exemplar {
-    private Livro livro;
-    private String id;
-    private boolean disponivel;
-    private boolean reservado;
-
+	private Livro livro;
+	private String id;
+    public boolean disponivel;
+    public boolean reservado;
+    
     public Exemplar(Livro livro, String id) {
         this.livro = livro;
         this.id = id;
@@ -33,10 +33,6 @@ public class Exemplar {
         }
         return false;
     }
-    
-    
-    
-    
-    
+   
     
 }
