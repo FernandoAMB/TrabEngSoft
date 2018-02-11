@@ -11,47 +11,40 @@ import java.util.ArrayList;
  *
  * @author ferna
  */
-public class Usuario {
+public abstract class Usuario {
 	public int id;
 	public String nome;
 	public ComportamentoAluguel comportamentoAluguel;
-	public int tempoSuspenso = 0;
+	
+	
 	public ArrayList<Exemplar> arrExemplaresEmprestados = new ArrayList<Exemplar>();
 	public ArrayList<Date> arrDateDevolucao = new ArrayList<Date>();
-	
+	public boolean suspenso = false;
+
 	public Usuario(int id, String nome, ComportamentoAluguel comportamentoAluguel) {
 		this.id = id;
 		this.nome = nome;
 		this.comportamentoAluguel = comportamentoAluguel;
 	}
 	
-	public void Emprestimo(Exemplar exemplar) {
+	public void alugaLivro(Exemplar exemplar) {
 		//acrescentar se o usuário ja tem o limite de livro na mão
-		//acrescentar se o livro ta reservado
-		if(tempoSuspenso == 0) {
-			if(exemplar.disponivel) {
+		if(!suspenso) {
+			if(exemplar.meuEstado = Disponivel) {		//como chamar a classe disponivel do state aqui?
 				arrExemplaresEmprestados.add(exemplar);
 				int i = arrExemplaresEmprestados.indexOf(exemplar);
-				arrDateDevolucao.add(i, CalcDevolucao());
-			}else {
-				System.out.println("O exemplar não está disponivel");
+//				arrDateDevolucao.add(i, CalcDataDevolucao());
 			}
 		}else {
 			System.out.println("O usuário não pode fazer emprestimo, pois está suspenso");
 		}
-	}
-	
-	public Date CalcDevolucao() {
-		Calendar devolucaoData = Calendar.getInstance();
-		devolucaoData.add(Calendar.DATE, comportamentoAluguel.TempoEmprestimo());
-		return devolucaoData.getTime();
 	}
 			
 	public void Devolver(Exemplar exemplar) {
 		int i = arrExemplaresEmprestados.indexOf(exemplar);
 		arrExemplaresEmprestados.remove(exemplar);
 		arrDateDevolucao.remove(i);
-		exemplar.disponivel = true;
+//		exemplar.disponivel = true;
 	}
 
 }
