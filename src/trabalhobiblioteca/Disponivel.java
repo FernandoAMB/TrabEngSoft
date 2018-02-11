@@ -1,10 +1,9 @@
 package trabalhobiblioteca;
 
 public class Disponivel implements EstadoExemplar {
-	public EstadoExemplar estado;
 	private static Disponivel instancia;
 
-	public Disponivel() {
+	private Disponivel() {
 	}
 	
     public static Disponivel getInstancia() {
@@ -17,22 +16,14 @@ public class Disponivel implements EstadoExemplar {
 	@Override
 	public void devolveu(Exemplar e) {
 //		Exemplar e = Exemplar.getInstancia();
-		e.setEstado(new Disponivel());
+		e.setEstado(Disponivel.getInstancia());
 		System.out.println("O exemplar esta disponivel");
 	}
 
 	@Override
 	public void emprestou(Exemplar e) {
 //		Exemplar e = Exemplar.getInstancia();
-		e.setEstado(new Emprestado());
+		e.setEstado(Emprestado.getInstancia());
 		System.out.println("O exemplar esta emprestado");
 	}
-	
-	@Override
-	public void reservou(Exemplar e) {
-//		Exemplar e = Exemplar.getInstancia();
-		e.setEstado(new Reservado());
-		System.out.println("O exemplar esta reservado");
-	}
-
 }

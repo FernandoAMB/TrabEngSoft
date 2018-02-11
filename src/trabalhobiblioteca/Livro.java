@@ -9,20 +9,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Iterator;
+
 /**
  *
  * @author ferna
  */
-public class Livro implements Subject{
-    public String codigo, titulo, editora, autores;
-    private int edicao;
-    private String dataPublicacao;
-    private List<Exemplar> listaExemplares;
-    public Reserva reserva;
-    
-	private ArrayList<ObserverLivro> observers = new ArrayList<ObserverLivro>();
+public class Livro implements Subject {
 
-    public Livro(String codigo, String titulo, String editora, String autores, int edicao, String data) {
+    private String codigo, titulo, editora, autores, edicao ,dataPublicacao;
+    private List<Exemplar> listaExemplares;
+    private List<Reserva> reservas;
+    private ArrayList<ObserverLivro> observers = new ArrayList<ObserverLivro>();
+
+    public Livro(String codigo, String titulo, String editora, String autores, String edicao, String data) {
         this.codigo = codigo;
         this.titulo = titulo;
         this.editora = editora;
@@ -30,39 +29,55 @@ public class Livro implements Subject{
         this.edicao = edicao;
         this.dataPublicacao = data;
         this.listaExemplares = new ArrayList<>();
+        this.reservas = new ArrayList<>();
     }
-    
+
     public void addExemplar(Exemplar ex) {
         this.listaExemplares.add(ex);
     }
-
-	@Override
-	public void registerObserver(ObserverLivro obLivro) {
-		observers.add(obLivro);
-	}
-
-	@Override
-	public void removeObserver(ObserverLivro obLivro) {
-		int i = observers.indexOf(obLivro);
-		if (i >= 0) {
-			observers.remove(i);
-		}
-	}
-
-	@Override
-	public void notifyObservers() {		//ajusatar para se for feita a reserva 2 vezes
-		for (int i = 0; i < observers.size(); i++) {
-			ObserverLivro observer = observers.get(i);
-			observer.update(this);
-		}		
-	}
     
-//    public void reserve() {
-//        for (Exemplar e : listaExemplares) {
-//            if (e.reserve()) break;
-//        }
-//    }
+    public void reserve(Reserva r) {
+        reservas.add(r);
+    }
     
-  
+    public void empresta() {
+        
+    }
+
+    @Override
+    public void registerObserver(ObserverLivro obLivro) {
+        observers.add(obLivro);
+    }
     
+
+    @Override
+    public void removeObserver(ObserverLivro obLivro) {
+        int i = observers.indexOf(obLivro);
+        if (i >= 0) {
+            observers.remove(i);
+        }
+    }
+    
+    public Exemplar getExemplarDisponivel() {
+        for (Exemplar e : listaExemplares) {
+            if (e.estaDisponivel()) return e;
+        }
+        return null;
+    }
+
+    @Override
+    public void notifyObservers() {		//ajusatar para se for feita a reserva 2 vezes
+        for (int i = 0; i < observers.size(); i++) {
+            ObserverLivro observer = observers.get(i);
+            observer.update(this);
+        }
+    }
+    
+    public String getTitulo() {
+        return this.titulo;
+    }
+    
+    public boolean identify(String code) {
+        return this.codigo.equals(code);
+    }
 }

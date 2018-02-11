@@ -10,49 +10,50 @@ package trabalhobiblioteca;
  * @author ferna
  */
 public class Exemplar {
-	private Livro livro;
-	private String id;
-//	private static Exemplar instancia;
-    public EstadoExemplar meuEstado;
-    
+
+    private Livro livro;
+    private String id;
+    private EstadoExemplar estado;
+
     public Exemplar(Livro livro, String id) {
-    	this.livro = livro;
+        this.livro = livro;
         this.id = id;
-        new Exemplar(Disponivel.getInstancia());
+        this.estado = Disponivel.getInstancia();
     }
-    
+
     private Exemplar(EstadoExemplar estadoInit) {
-    	this.meuEstado = estadoInit;
+        this.estado = estadoInit;
     }
-    
+
 //    public static Exemplar getInstancia() {
 //    	if(instancia == null) {
 //    		instancia = new Exemplar(Disponivel.getInstancia());
 //    	}
 //    	return instancia;
 //    }
-    
-    public void setEstado(EstadoExemplar novoEstado)
-    {
- 	   meuEstado = novoEstado;
+    public void setEstado(EstadoExemplar novoEstado) {
+        estado = novoEstado;
     }
-    
+
 //    public boolean isReserved() {
 //        return reservado;
 //    }
-    
+    public boolean estaDisponivel() {
+        return this.estado.getClass().equals(Disponivel.class);
+    }
+
     public void devolveu() {
-    	meuEstado.devolveu(this);
+        estado.devolveu(this);
     }
-    
+
     public void emprestou() {
-    	meuEstado.emprestou(this);
+        estado.emprestou(this);
     }
-    
-    public void reservou() {
-    	meuEstado.reservou(this);
+
+    public void devolver() {
+
     }
-    
+
 //    public boolean reserve() {
 //        if (!isReserved()) {
 //            this.reservado = true;

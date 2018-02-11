@@ -3,17 +3,21 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Emprestimo {
-	public Calendar devolucaoData;
+	private Calendar devolucaoData;
 	private boolean devolvido =  false;
-	public Usuario usuario;
+	private Usuario usuario;
 	
 	public Emprestimo(Usuario usuario){
 		this.usuario = usuario;
 	}
 
-	public Date CalcDataDevolucao() {
+	public Date CalcDataDevolucao(int tempoEmprestimo) {
 		devolucaoData = Calendar.getInstance();		//pega a data atual do dia
-		devolucaoData.add(Calendar.DATE, usuario.comportamentoAluguel.TempoEmprestimo());
+		devolucaoData.add(Calendar.DATE, tempoEmprestimo);
 		return devolucaoData.getTime();
 	}
+        
+        public void devolver() {
+            this.devolvido = true;
+        }
 }

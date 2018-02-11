@@ -12,31 +12,28 @@ import java.util.ArrayList;
  * @author ferna
  */
 public abstract class Usuario {
-	public int id;
-	public String nome;
-	public ComportamentoAluguel comportamentoAluguel;
-	
-	
-	public ArrayList<Exemplar> arrExemplaresEmprestados = new ArrayList<Exemplar>();
-	public ArrayList<Date> arrDateDevolucao = new ArrayList<Date>();
-	public boolean suspenso = false;
+	private String id, nome;
+	private ComportamentoAluguel comportamentoAluguel;
+	private ArrayList<Exemplar> arrExemplaresEmprestados = new ArrayList<>();
+	private ArrayList<Date> arrDateDevolucao = new ArrayList<>();
+	private boolean suspenso = false;
 
-	public Usuario(int id, String nome, ComportamentoAluguel comportamentoAluguel) {
+	public Usuario(String id, String nome, ComportamentoAluguel comportamentoAluguel) {
 		this.id = id;
 		this.nome = nome;
 		this.comportamentoAluguel = comportamentoAluguel;
 	}
 	
 	public void alugaLivro(Exemplar exemplar) {
-		//acrescentar se o usuário ja tem o limite de livro na mão
+		//acrescentar se o usuï¿½rio ja tem o limite de livro na mï¿½o
 		if(!suspenso) {
-			if(exemplar.meuEstado = Disponivel) {		//como chamar a classe disponivel do state aqui?
+			if(exemplar.estaDisponivel()) {	
 				arrExemplaresEmprestados.add(exemplar);
 				int i = arrExemplaresEmprestados.indexOf(exemplar);
 //				arrDateDevolucao.add(i, CalcDataDevolucao());
 			}
 		}else {
-			System.out.println("O usuário não pode fazer emprestimo, pois está suspenso");
+			System.out.println("O usuï¿½rio nï¿½o pode fazer emprestimo, pois estï¿½ suspenso");
 		}
 	}
 			
@@ -44,7 +41,21 @@ public abstract class Usuario {
 		int i = arrExemplaresEmprestados.indexOf(exemplar);
 		arrExemplaresEmprestados.remove(exemplar);
 		arrDateDevolucao.remove(i);
+                exemplar.devolver();
+                
 //		exemplar.disponivel = true;
 	}
+        
+        public String getId() {
+            return this.id;
+        }
+        
+        public boolean equals(Usuario u) {
+            return this.id.equals(u.getId());
+        }
+        
+        public boolean identify (String id) {
+            return this.id.equals(id);
+        }
 
 }
