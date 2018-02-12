@@ -16,7 +16,7 @@ import java.util.Iterator;
  */
 public class Livro implements Subject {
 
-    private String codigo, titulo, editora, autores, edicao ,dataPublicacao;
+    private String codigo, titulo, editora, autores, edicao, dataPublicacao;
     private List<Exemplar> listaExemplares;
     private List<Reserva> reservas;
     private ArrayList<ObserverLivro> observers = new ArrayList<ObserverLivro>();
@@ -35,20 +35,19 @@ public class Livro implements Subject {
     public void addExemplar(Exemplar ex) {
         this.listaExemplares.add(ex);
     }
-    
+
     public void reserve(Reserva r) {
         reservas.add(r);
     }
-    
+
     public void empresta() {
-        
+
     }
 
     @Override
     public void registerObserver(ObserverLivro obLivro) {
         observers.add(obLivro);
     }
-    
 
     @Override
     public void removeObserver(ObserverLivro obLivro) {
@@ -57,10 +56,12 @@ public class Livro implements Subject {
             observers.remove(i);
         }
     }
-    
+
     public Exemplar getExemplarDisponivel() {
         for (Exemplar e : listaExemplares) {
-            if (e.estaDisponivel()) return e;
+            if (e.estaDisponivel()) {
+                return e;
+            }
         }
         return null;
     }
@@ -72,11 +73,11 @@ public class Livro implements Subject {
             observer.update(this);
         }
     }
-    
+
     public String getTitulo() {
         return this.titulo;
     }
-    
+
     public boolean identify(String code) {
         return this.codigo.equals(code);
     }

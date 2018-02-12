@@ -9,4 +9,9 @@ public class AluguelFuncionario implements ComportamentoAluguel {
     public int TempoEmprestimo() {
         return 2;
     }
+
+    @Override
+    public boolean aluguelPermitido(Usuario u) {
+        return u.getNumEmprestimos() <= 3;
+    }
 }
