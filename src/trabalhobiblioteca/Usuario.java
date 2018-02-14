@@ -19,6 +19,7 @@ public abstract class Usuario {
     private ComportamentoAluguel comportamentoAluguel;
     private ArrayList<Emprestimo> emprestimos, histEmprestimos;
     private boolean suspenso = false;
+    private ArrayList<Reserva> reservas;
 
     public Usuario(String id, String nome, ComportamentoAluguel comportamentoAluguel) {
         this.id = id;
@@ -26,15 +27,17 @@ public abstract class Usuario {
         this.comportamentoAluguel = comportamentoAluguel;
         this.emprestimos = new ArrayList<>();
         this.histEmprestimos = new ArrayList<>();
+        this.reservas = new ArrayList<>();
     }
 
-    public void alugaLivro(Exemplar exemplar) {
-        suspenso = comportamentoAluguel.aluguelPermitido(this);
+    public void alugaLivro(Livro l) {
+        suspenso = comportamentoAluguel.aluguelPermitido(this, l);
         if (!suspenso) {
-            if (exemplar.estaDisponivel()) {
-                Emprestimo e = new Emprestimo(this, exemplar);
-                e.SetDataDevolucao(this.getTempoEmprestimo());
-                emprestimos.add(e);
+            Exemplar e = l.getExemplarDisponivel();
+            if (e.estaDisponivel()) {
+                Emprestimo emp = new Emprestimo(this, e);
+                emp.SetDataDevolucao(this.getTempoEmprestimo());
+                emprestimos.add(emp);
             }
         } else {
             System.out.println("O usu�rio n�o pode fazer emprestimo, pois est� suspenso");
@@ -52,6 +55,29 @@ public abstract class Usuario {
                 break;
             }
         }              
+    }
+    
+    public boolean jaAlugou(Livro l) {
+        for (Emprestimo e : emprestimos) {
+            if (e.referToLivro(l)) return true;
+        }
+        return false;
+    }
+    
+    public boolean estaAtrasado() {
+        for (Emprestimo e : emprestimos) {
+            if (e.estaAtrasado()) return true;
+        }
+        return false;
+    }
+    
+    public void reservaLivro(Livro l) {
+        if (reservas.size() < 3) {
+            Reserva r = new Reserva(this, l);
+            reservas.add(r);
+            System.out.println("Reserva realizada com sucesso!"); 
+        }
+        else System.out.println("Usuario ja possui 3 reservas");
     }
 
     public String getId() {

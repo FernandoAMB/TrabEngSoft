@@ -34,6 +34,10 @@ public class Exemplar {
     public void setEstado(EstadoExemplar novoEstado) {
         estado = novoEstado;
     }
+    
+    public boolean referToLivro(Livro l) {
+        return livro.equals(l);
+    }
 
 //    public boolean isReserved() {
 //        return reservado;

@@ -11,7 +11,7 @@ public class AluguelFuncionario implements ComportamentoAluguel {
     }
 
     @Override
-    public boolean aluguelPermitido(Usuario u) {
-        return u.getNumEmprestimos() <= 3;
+    public boolean aluguelPermitido(Usuario u, Livro l) {
+        return u.getNumEmprestimos() <= 3 && !u.estaAtrasado() && !u.jaAlugou(l);
     }
 }

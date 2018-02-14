@@ -11,7 +11,7 @@ public class AluguelProfessor implements ComportamentoAluguel {
     }
 
     @Override
-    public boolean aluguelPermitido(Usuario u) {
-        return true;
+    public boolean aluguelPermitido(Usuario u, Livro l) {
+        return !u.jaAlugou(l);
     }
 }

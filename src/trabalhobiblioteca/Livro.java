@@ -35,13 +35,21 @@ public class Livro implements Subject {
     public void addExemplar(Exemplar ex) {
         this.listaExemplares.add(ex);
     }
+    
 
     public void reserve(Reserva r) {
         reservas.add(r);
+        if (reservas.size() > 1) notifyObservers();
     }
 
     public void empresta() {
-
+        Exemplar e = getExemplarDisponivel();
+        if (e != null) {
+            e.emprestou();
+        }
+        else {
+            System.out.println("Nao ha exemplares disponiveis do livro");
+        }
     }
 
     @Override
@@ -56,6 +64,7 @@ public class Livro implements Subject {
             observers.remove(i);
         }
     }
+    
 
     public Exemplar getExemplarDisponivel() {
         for (Exemplar e : listaExemplares) {
@@ -67,7 +76,7 @@ public class Livro implements Subject {
     }
 
     @Override
-    public void notifyObservers() {		//ajusatar para se for feita a reserva 2 vezes
+    public void notifyObservers() {
         for (int i = 0; i < observers.size(); i++) {
             ObserverLivro observer = observers.get(i);
             observer.update(this);

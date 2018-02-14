@@ -47,5 +47,19 @@ public class SistemaBiblioteca {
         }
         return null;
     }
+    
+    public void alugaLivro(String userId, String codigo) {
+        Livro l = getLivro(codigo);
+        Usuario u = getUsuario(userId);
+        u.alugaLivro(l);
+    }
+
+    public void reservaLivro(String userId, String codigo) {
+        Livro l = getLivro(codigo);
+        Usuario u = getUsuario(userId);
+        u.reservaLivro(l);
+        
+    }
+    
 
 }
