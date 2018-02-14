@@ -11,7 +11,32 @@ public class AluguelAluno implements ComportamentoAluguel {
     }
 
     @Override
-    public boolean aluguelPermitido(Usuario u, Livro l) {
-        return u.getNumEmprestimos() <= 4 && !u.estaAtrasado() && !u.jaAlugou(l);
+    public boolean aluguelPermitidoSusp(Usuario u, Livro l) {			//se ta suspenso
+        return !u.estaAtrasado();
     }
+    
+    @Override
+    public boolean aluguelPermitidoIgual(Usuario u, Livro l) {			//se já alugou igual
+        return !u.jaAlugou(l);
+    }
+    
+    @Override
+    public boolean aluguelPermitidoMax(Usuario u) {			//se tem a quant maxima de emprestimos
+        return u.getNumEmprestimos() <= 4;
+    }
+    
+    public boolean aluguelPermitidoReserva(Usuario u, Livro l) {
+    	if(l.numReservMaiornNumExem()) {    		
+    		if(l.temReserva(u)) {
+    			l.removeReserva(u);
+    			u.removeReserva(l);
+    			return true;
+    		}else {
+    			return false;
+    		}
+    	}else {
+    		return true;
+    	}
+    }
+    
 }

@@ -58,8 +58,20 @@ public class SistemaBiblioteca {
         Livro l = getLivro(codigo);
         Usuario u = getUsuario(userId);
         u.reservaLivro(l);
-        
     }
     
+    public void ConsultaLivro(String codigo) {
+    	Livro l = getLivro(codigo);
+    	l.ConsultaLivro();
+    }
+    
+    public void ConsultaUsuario(String id) {
+    	Usuario u = getUsuario(id);
+    	u.ConsultaUsuario();
+    }
 
+    public void ConsultaProfessor(String id) {
+    	Professor p = (Professor) getUsuario(id);
+    	p.ConsultaProfessor();
+    }
 }

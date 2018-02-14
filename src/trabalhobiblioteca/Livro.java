@@ -6,9 +6,7 @@
 package trabalhobiblioteca;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Iterator;
 
 /**
  *
@@ -16,7 +14,7 @@ import java.util.Iterator;
  */
 public class Livro implements Subject {
 
-    private String codigo, titulo, editora, autores, edicao, dataPublicacao;
+    public String codigo, titulo, editora, autores, edicao, dataPublicacao;
     private List<Exemplar> listaExemplares;
     private List<Reserva> reservas;
     private ArrayList<ObserverLivro> observers = new ArrayList<ObserverLivro>();
@@ -31,7 +29,28 @@ public class Livro implements Subject {
         this.listaExemplares = new ArrayList<>();
         this.reservas = new ArrayList<>();
     }
-
+    
+    public void ConsultaLivro() {
+    	System.out.println("Título do livro :"+ getTitulo());
+    	System.out.println("Quantidade de reservas :"+ reservas.size());
+    	if(reservas.size() != 0) {
+        	System.out.println("Usuários que realizaram as reservas: ");
+        	for(Reserva r : reservas) {
+            	System.out.println(r.getUser().getNome());
+        	}
+    	}
+    	System.out.println("Exemplares:");
+    	for(Exemplar e : listaExemplares) {
+        	System.out.println("	Código :"+ e.getId());
+        	System.out.println("	Estado :"+ e.getEstado());
+        	if(e.getEstado().equals(Emprestado.class)) {
+            	System.out.println("		Para :"+ e.getEmprestimo().getUserEmprestimo().getNome());
+            	System.out.println("		Data do emprestimo :"+ e.getEmprestimo().getDataEmprestimo());
+            	System.out.println("		Data de devolução :"+ e.getEmprestimo().getDataDevolucao());
+        	}
+    	}
+    }
+    
     public void addExemplar(Exemplar ex) {
         this.listaExemplares.add(ex);
     }
@@ -39,9 +58,26 @@ public class Livro implements Subject {
 
     public void reserve(Reserva r) {
         reservas.add(r);
-        if (reservas.size() > 1) notifyObservers();
+        if (reservas.size() > 2) notifyObservers();
+    }
+    
+    public boolean numReservMaiornNumExem() {
+    	if(reservas.size()>listaExemplares.size())
+    		return true;
+    	else {
+    		return false;
+    	}
     }
 
+    public boolean temReserva(Usuario u) {
+    	for(Reserva r : reservas) {
+    		if(r.getUser() == u && r.getLivro() == this) {
+    	    	return true;
+    		}
+    	}
+    	return false;
+    }
+    
     public void empresta() {
         Exemplar e = getExemplarDisponivel();
         if (e != null) {
@@ -65,6 +101,14 @@ public class Livro implements Subject {
         }
     }
     
+    public void removeReserva(Usuario u) {
+    	for(Reserva r : reservas) {
+    		if(r.getUser() == u && r.getLivro() == this) {
+    			reservas.remove(r);
+    			break;
+    		}
+    	}
+    }
 
     public Exemplar getExemplarDisponivel() {
         for (Exemplar e : listaExemplares) {
@@ -77,10 +121,10 @@ public class Livro implements Subject {
 
     @Override
     public void notifyObservers() {
-        for (int i = 0; i < observers.size(); i++) {
-            ObserverLivro observer = observers.get(i);
-            observer.update(this);
-        }
+	        for (int i = 0; i < observers.size(); i++) {
+	            ObserverLivro observer = observers.get(i);
+	            observer.update(this);
+	        }
     }
 
     public String getTitulo() {

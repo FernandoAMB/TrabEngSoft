@@ -11,7 +11,21 @@ public class AluguelProfessor implements ComportamentoAluguel {
     }
 
     @Override
-    public boolean aluguelPermitido(Usuario u, Livro l) {
+    public boolean aluguelPermitidoIgual(Usuario u, Livro l) {		//se ja alugou igual
         return !u.jaAlugou(l);
+    }
+
+	@Override
+	public boolean aluguelPermitidoSusp(Usuario u, Livro l) {
+		return true;
+	}
+
+	@Override
+	public boolean aluguelPermitidoMax(Usuario u) {
+		return true;
+	}
+	
+    public boolean aluguelPermitidoReserva(Usuario u, Livro l) {
+    	return true;
     }
 }
