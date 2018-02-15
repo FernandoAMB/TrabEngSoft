@@ -21,7 +21,6 @@ public abstract class Usuario {
     private boolean maxExemplar = false;
     private boolean EmprestimoReserva = false;
     private ArrayList<Reserva> reservas;
-//    private Calendar suspensoAte;
 
     public Usuario(String id, String nome, ComportamentoAluguel comportamentoAluguel) {
         this.id = id;
@@ -38,7 +37,7 @@ public abstract class Usuario {
         maxExemplar = comportamentoAluguel.aluguelPermitidoMax(this);
         EmprestimoReserva = comportamentoAluguel.aluguelPermitidoSusp(this, l);
         if(EmprestimoReserva) {
-	        if(!maxExemplar) {
+	        if(maxExemplar) {
 		        if(!exemplarIgual){
 			        if (!suspenso) {
 			            Exemplar e = l.getExemplarDisponivel();
@@ -49,19 +48,19 @@ public abstract class Usuario {
 			                e.setEmprestimo(emp);
 			            	System.out.println("Emprestimo efetivado para " +this.nome +". Do exemplar "+ l.getTitulo());
 			            }else {
-			            	System.out.println("Emprestimo não efetivado para " +this.nome +". O exemplar "+ l.getTitulo() +" não está disponível");
+			            	System.out.println("Emprestimo nao efetivado para " +this.nome +". O exemplar "+ l.getTitulo() +" nï¿½o estï¿½ disponï¿½vel");
 			            }
 			        } else {
-			        	System.out.println("Emprestimo do livro "+ l.getTitulo() +" não efetivado para " +this.nome +". O usuário está suspenso");
+			        	System.out.println("Emprestimo do livro "+ l.getTitulo() +" nï¿½o efetivado para " +this.nome +". O usuï¿½rio estï¿½ suspenso");
 			        }
 			        }else {
-		            	System.out.println("Emprestimo do livro "+ l.getTitulo() +" não efetivado para " +this.nome +". O usuário já tem um livro igual emprestado");
+		            	System.out.println("Emprestimo do livro "+ l.getTitulo() +" nï¿½o efetivado para " +this.nome +". O usuï¿½rio jï¿½ tem um livro igual emprestado");
 			        }
 		        }else {
-	            	System.out.println("Emprestimo do livro "+ l.getTitulo() +" não efetivado para " +this.nome +". O usuário já possui a quantidade maxima de livos");
+	            	System.out.println("Emprestimo do livro "+ l.getTitulo() +" nï¿½o efetivado para " +this.nome +". O usuï¿½rio jï¿½ possui a quantidade maxima de livos");
 		        }
         }else {
-        	System.out.println("Emprestimo do livro "+ l.getTitulo() +" não efetivado para " +this.nome +". O livro está reservado");
+        	System.out.println("Emprestimo do livro "+ l.getTitulo() +" nï¿½o efetivado para " +this.nome +". O livro estï¿½ reservado");
         }
     }
 
@@ -69,17 +68,16 @@ public abstract class Usuario {
         return comportamentoAluguel.TempoEmprestimo();
     }
     
-    public void Devolver(Exemplar exemplar) {
+    public void Devolver(Livro l) {
         for (Emprestimo e : emprestimos) {
-            if (e.identify(exemplar)) {
+            if (e.referToLivro(l)) {
                 e.devolver();
                 histEmprestimos.add(e);
                 emprestimos.remove(e);
-                System.out.println("O usuário "+ this.nome +" devolveu o livro "+ exemplar.livro.getTitulo());
-                break;
+                return;
             }
         }
-        System.out.println("O usuário "+ this.nome +" não possui emprestio em aberto do livro "+ exemplar.livro.getTitulo());
+        System.out.println("O usuario "+ this.nome +" nao possui emprestimo em aberto do livro "+ l.getTitulo());
     }
     
     public void removeReserva(Livro livro) {
@@ -126,7 +124,7 @@ public abstract class Usuario {
             reservas.add(r);
     		System.out.println("Reserva do livro "+ l.getTitulo() +" foi efetuada para "+ this.nome);
         }
-		System.out.println("O usuário "+ this.nome +" já possui 3 reservas");
+		System.out.println("O usuï¿½rio "+ this.nome +" jï¿½ possui 3 reservas");
     }
 
     public String getId() {
@@ -165,6 +163,7 @@ public abstract class Usuario {
     	}
     	
     }    
+    
 //    public Usuario getUserExempEmprestado(Exemplar exemplar) {
 //    	for (Emprestimo e : emprestimos) {
 //    		if(e.getExemplar() == exemplar) {

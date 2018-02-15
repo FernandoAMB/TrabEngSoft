@@ -31,22 +31,22 @@ public class Livro implements Subject {
     }
     
     public void ConsultaLivro() {
-    	System.out.println("Título do livro :"+ getTitulo());
+    	System.out.println("Tï¿½tulo do livro :"+ getTitulo());
     	System.out.println("Quantidade de reservas :"+ reservas.size());
     	if(reservas.size() != 0) {
-        	System.out.println("Usuários que realizaram as reservas: ");
+        	System.out.println("Usuï¿½rios que realizaram as reservas: ");
         	for(Reserva r : reservas) {
             	System.out.println(r.getUser().getNome());
         	}
     	}
     	System.out.println("Exemplares:");
     	for(Exemplar e : listaExemplares) {
-        	System.out.println("	Código :"+ e.getId());
+        	System.out.println("	Cï¿½digo :"+ e.getId());
         	System.out.println("	Estado :"+ e.getEstado());
         	if(e.getEstado().equals(Emprestado.class)) {
             	System.out.println("		Para :"+ e.getEmprestimo().getUserEmprestimo().getNome());
             	System.out.println("		Data do emprestimo :"+ e.getEmprestimo().getDataEmprestimo());
-            	System.out.println("		Data de devolução :"+ e.getEmprestimo().getDataDevolucao());
+            	System.out.println("		Data de devoluï¿½ï¿½o :"+ e.getEmprestimo().getDataDevolucao());
         	}
     	}
     }
@@ -134,4 +134,5 @@ public class Livro implements Subject {
     public boolean identify(String code) {
         return this.codigo.equals(code);
     }
+    
 }

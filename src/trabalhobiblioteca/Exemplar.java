@@ -11,43 +11,48 @@ package trabalhobiblioteca;
  */
 public class Exemplar {
 
-    public Livro livro;
+    private Livro livro;
     private String id;
     private EstadoExemplar estado;
     private Emprestimo emprestimo;
-    
+
     public Exemplar(Livro livro, String id) {
         this.livro = livro;
         this.id = id;
         this.estado = Disponivel.getInstancia();
         this.emprestimo = null;
     }
-    
+
     public Emprestimo getEmprestimo() {
-    	return this.emprestimo;
+        return this.emprestimo;
     }
+
     public void setEmprestimo(Emprestimo e) {
-    	this.emprestimo = e;
+        this.emprestimo = e;
     }
+
     public String getId() {
-    	return id;
+        return id;
     }
-     
+
     public Livro getLivro() {
-    	return livro;
+        return livro;
     }
-    
-    
+
     public Object getEstado() {
-    	return estado.getClass();
+        return estado.getClass();
     }
 
     public void setEstado(EstadoExemplar novoEstado) {
         estado = novoEstado;
     }
-    
+
     public boolean referToLivro(Livro l) {
         return livro.equals(l);
+    }
+
+    public String getTitulo() {
+        return livro.getTitulo();
     }
 
     public boolean estaDisponivel() {

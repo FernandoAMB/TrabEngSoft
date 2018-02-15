@@ -16,8 +16,8 @@ public class AluguelAluno implements ComportamentoAluguel {
     }
     
     @Override
-    public boolean aluguelPermitidoIgual(Usuario u, Livro l) {			//se já alugou igual
-        return !u.jaAlugou(l);
+    public boolean aluguelPermitidoIgual(Usuario u, Livro l) {			//se jï¿½ alugou igual
+        return u.jaAlugou(l);
     }
     
     @Override

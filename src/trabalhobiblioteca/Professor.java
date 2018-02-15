@@ -4,8 +4,8 @@ public class Professor extends Usuario implements ObserverLivro {
 
     private int updateCount = 0;
     
-    public Professor(String id, String nome, ComportamentoAluguel comportamentoAluguel) {
-        super(id, nome, comportamentoAluguel);
+    public Professor(String id, String nome) {
+        super(id, nome, new AluguelProfessor());
         // TODO Auto-generated constructor stub
     }
 

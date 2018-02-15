@@ -36,6 +36,7 @@ public class Emprestimo {
     public void devolver() {
         this.devolvido = true;
         exemplar.devolveu();
+        System.out.println("O usuario "+ usuario.getNome() +" devolveu o livro "+ exemplar.getTitulo());
     }
     
     public boolean referToLivro(Livro l) {
@@ -45,6 +46,7 @@ public class Emprestimo {
     public boolean identify(Exemplar e) {
         return this.exemplar.equals(e);
     }
+    
     
     public Exemplar getExemplar() {
     	return exemplar;
