@@ -44,7 +44,12 @@ public class TrabalhoBiblioteca {
             }
             finally {
                 String[] argumentos = entrada.split(" ");
-                comandos.get(argumentos[0]).execute(argumentos);
+                try {
+                    comandos.get(argumentos[0]).execute(argumentos);
+                }
+                catch (NullPointerException n) {
+                    System.out.println("Comando invalido");
+                }
             }
             
         }

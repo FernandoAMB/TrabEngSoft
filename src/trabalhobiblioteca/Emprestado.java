@@ -26,5 +26,10 @@ public class Emprestado implements EstadoExemplar {
         e.setEstado(Emprestado.getInstancia());
         System.out.println("O exemplar esta emprestado");
     }
+    
+    @Override
+    public String toString() {
+        return "Emprestado";
+    }
 
 }

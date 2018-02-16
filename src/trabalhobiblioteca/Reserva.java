@@ -29,5 +29,9 @@ public class Reserva {
     public Livro getLivro() {
     	return livro;
     }
+    
+    public String getInfo() {
+        return this.user.getNome();
+    }
 
 }

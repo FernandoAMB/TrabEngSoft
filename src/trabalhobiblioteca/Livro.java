@@ -29,61 +29,51 @@ public class Livro implements Subject {
         this.listaExemplares = new ArrayList<>();
         this.reservas = new ArrayList<>();
     }
-    
+
     public void ConsultaLivro() {
-    	System.out.println("T�tulo do livro :"+ getTitulo());
-    	System.out.println("Quantidade de reservas :"+ reservas.size());
-    	if(reservas.size() != 0) {
-        	System.out.println("Usu�rios que realizaram as reservas: ");
-        	for(Reserva r : reservas) {
-            	System.out.println(r.getUser().getNome());
-        	}
-    	}
-    	System.out.println("Exemplares:");
-    	for(Exemplar e : listaExemplares) {
-        	System.out.println("	C�digo :"+ e.getId());
-        	System.out.println("	Estado :"+ e.getEstado());
-        	if(e.getEstado().equals(Emprestado.class)) {
-            	System.out.println("		Para :"+ e.getEmprestimo().getUserEmprestimo().getNome());
-            	System.out.println("		Data do emprestimo :"+ e.getEmprestimo().getDataEmprestimo());
-            	System.out.println("		Data de devolu��o :"+ e.getEmprestimo().getDataDevolucao());
-        	}
-    	}
+        System.out.println("Titulo do livro :" + getTitulo());
+        System.out.println("Quantidade de reservas :" + reservas.size());
+        if (!reservas.isEmpty()) {
+            System.out.println("Usuarios que realizaram as reservas: ");
+            for (Reserva r : reservas) {
+                System.out.println(r.getInfo());
+            }
+        }
+        System.out.println("Exemplares:");
+        for (Exemplar e : listaExemplares) {
+            e.printInfo();
+        }
     }
-    
+
     public void addExemplar(Exemplar ex) {
         this.listaExemplares.add(ex);
     }
-    
 
     public void reserve(Reserva r) {
         reservas.add(r);
-        if (reservas.size() > 2) notifyObservers();
+        if (reservas.size() > 1) {
+            notifyObservers();
+        }
     }
-    
+
     public boolean numReservMaiornNumExem() {
-    	if(reservas.size()>listaExemplares.size())
-    		return true;
-    	else {
-    		return false;
-    	}
+        return reservas.size() >= listaExemplares.size();
     }
 
     public boolean temReserva(Usuario u) {
-    	for(Reserva r : reservas) {
-    		if(r.getUser() == u && r.getLivro() == this) {
-    	    	return true;
-    		}
-    	}
-    	return false;
+        for (Reserva r : reservas) {
+            if (r.getUser() == u && r.getLivro() == this) {
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     public void empresta() {
         Exemplar e = getExemplarDisponivel();
         if (e != null) {
             e.emprestou();
-        }
-        else {
+        } else {
             System.out.println("Nao ha exemplares disponiveis do livro");
         }
     }
@@ -100,14 +90,14 @@ public class Livro implements Subject {
             observers.remove(i);
         }
     }
-    
+
     public void removeReserva(Usuario u) {
-    	for(Reserva r : reservas) {
-    		if(r.getUser() == u && r.getLivro() == this) {
-    			reservas.remove(r);
-    			break;
-    		}
-    	}
+        for (Reserva r : reservas) {
+            if (r.getUser().equals(u) && r.getLivro().equals(this)) {
+                reservas.remove(r);
+                break;
+            }
+        }
     }
 
     public Exemplar getExemplarDisponivel() {
@@ -121,10 +111,10 @@ public class Livro implements Subject {
 
     @Override
     public void notifyObservers() {
-	        for (int i = 0; i < observers.size(); i++) {
-	            ObserverLivro observer = observers.get(i);
-	            observer.update(this);
-	        }
+        for (int i = 0; i < observers.size(); i++) {
+            ObserverLivro observer = observers.get(i);
+            observer.update(this);
+        }
     }
 
     public String getTitulo() {
@@ -134,5 +124,5 @@ public class Livro implements Subject {
     public boolean identify(String code) {
         return this.codigo.equals(code);
     }
-    
+
 }

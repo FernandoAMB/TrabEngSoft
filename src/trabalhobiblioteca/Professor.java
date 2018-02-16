@@ -12,7 +12,6 @@ public class Professor extends Usuario implements ObserverLivro {
     @Override
     public void update(Livro livro) {
         updateCount++;
-        System.out.println("O livro " + livro.getTitulo() + " foi reservado duas vezes");
     }
  
     public void ConsultaProfessor(){

@@ -16,12 +16,15 @@ public class Disponivel implements EstadoExemplar {
 	@Override
 	public void devolveu(Exemplar e) {
 		e.setEstado(Disponivel.getInstancia());
-		System.out.println("O exemplar está disponivel");
 	}
 
 	@Override
 	public void emprestou(Exemplar e) {
 		e.setEstado(Emprestado.getInstancia());
-		System.out.println("O exemplar está emprestado");
 	}
+        
+        @Override
+        public String toString() {
+            return "Disponivel";
+        }
 }

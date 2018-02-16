@@ -16,13 +16,13 @@ public class AluguelFuncionario implements ComportamentoAluguel {
     }
     
     @Override
-    public boolean aluguelPermitidoIgual(Usuario u, Livro l) {			//se já alugou igual
+    public boolean aluguelPermitidoIgual(Usuario u, Livro l) {			//se jï¿½ alugou igual
         return !u.jaAlugou(l);
     }
     
     @Override
     public boolean aluguelPermitidoMax(Usuario u) {			//se tem a quant maxima de emprestimos
-        return u.getNumEmprestimos() <= 3;
+        return u.getNumEmprestimos() < 3;
     }
     
     public boolean aluguelPermitidoReserva(Usuario u, Livro l) {

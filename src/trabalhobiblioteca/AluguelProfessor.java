@@ -6,6 +6,7 @@ public class AluguelProfessor implements ComportamentoAluguel {
         // TODO Auto-generated constructor stub
     }
 
+    @Override
     public int TempoEmprestimo() {
         return 7;
     }
@@ -15,17 +16,18 @@ public class AluguelProfessor implements ComportamentoAluguel {
         return !u.jaAlugou(l);
     }
 
-	@Override
-	public boolean aluguelPermitidoSusp(Usuario u, Livro l) {
-		return true;
-	}
+    @Override
+    public boolean aluguelPermitidoSusp(Usuario u, Livro l) {
+        return true;
+    }
 
-	@Override
-	public boolean aluguelPermitidoMax(Usuario u) {
-		return true;
-	}
-	
+    @Override
+    public boolean aluguelPermitidoMax(Usuario u) {
+        return true;
+    }
+
+    @Override
     public boolean aluguelPermitidoReserva(Usuario u, Livro l) {
-    	return true;
+        return true;
     }
 }

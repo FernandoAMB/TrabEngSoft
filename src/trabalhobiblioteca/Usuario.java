@@ -7,6 +7,7 @@ package trabalhobiblioteca;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
 /**
  *
  * @author ferna
@@ -32,42 +33,48 @@ public abstract class Usuario {
     }
 
     public void alugaLivro(Livro l) {
-        suspenso = comportamentoAluguel.aluguelPermitidoSusp(this, l);
+        suspenso = !comportamentoAluguel.aluguelPermitidoSusp(this, l);
         exemplarIgual = comportamentoAluguel.aluguelPermitidoIgual(this, l);
         maxExemplar = comportamentoAluguel.aluguelPermitidoMax(this);
-        EmprestimoReserva = comportamentoAluguel.aluguelPermitidoSusp(this, l);
-        if(EmprestimoReserva) {
-	        if(maxExemplar) {
-		        if(!exemplarIgual){
-			        if (!suspenso) {
-			            Exemplar e = l.getExemplarDisponivel();
-			            if (e.estaDisponivel()) {
-			                Emprestimo emp = new Emprestimo(this, e);
-			                emp.SetDataDevolucao(this.getTempoEmprestimo());
-			                emprestimos.add(emp);
-			                e.setEmprestimo(emp);
-			            	System.out.println("Emprestimo efetivado para " +this.nome +". Do exemplar "+ l.getTitulo());
-			            }else {
-			            	System.out.println("Emprestimo nao efetivado para " +this.nome +". O exemplar "+ l.getTitulo() +" n�o est� dispon�vel");
-			            }
-			        } else {
-			        	System.out.println("Emprestimo do livro "+ l.getTitulo() +" n�o efetivado para " +this.nome +". O usu�rio est� suspenso");
-			        }
-			        }else {
-		            	System.out.println("Emprestimo do livro "+ l.getTitulo() +" n�o efetivado para " +this.nome +". O usu�rio j� tem um livro igual emprestado");
-			        }
-		        }else {
-	            	System.out.println("Emprestimo do livro "+ l.getTitulo() +" n�o efetivado para " +this.nome +". O usu�rio j� possui a quantidade maxima de livos");
-		        }
-        }else {
-        	System.out.println("Emprestimo do livro "+ l.getTitulo() +" n�o efetivado para " +this.nome +". O livro est� reservado");
+        EmprestimoReserva = comportamentoAluguel.aluguelPermitidoReserva(this, l);
+        if (EmprestimoReserva) {
+            if (maxExemplar) {
+                if (exemplarIgual) {
+                    if (suspenso) {
+                        System.out.println("Emprestimo do livro " + l.getTitulo() + " nao efetivado para " + this.nome + ". O usuario esta suspenso");
+                    } else {
+                        Exemplar e = l.getExemplarDisponivel();
+                        if (e == null) {
+                            System.out.println("Nao ha exemplares disponiveis do livro " + l.getTitulo());
+                        }
+                        if (e.estaDisponivel()) {
+                            l.removeReserva(this);
+                            this.removeReserva(l);
+                            Emprestimo emp = new Emprestimo(this, e);
+                            emp.SetDataDevolucao(this.getTempoEmprestimo());
+                            emprestimos.add(emp);
+                            e.setEmprestimo(emp);
+                            System.out.println("Emprestimo do exemplar " + e.getId() + " do livro " + l.getTitulo() + " efetivado para " + this.nome);
+                        } else {
+                            System.out.println("Emprestimo nao efetivado para " + this.nome + ". O exemplar " + l.getTitulo() + " nao esta disponivel");
+                        }
+                    }
+                } else {
+                    System.out.println("Emprestimo do livro " + l.getTitulo() + " nao efetivado para " + this.nome + ". O usuario ja tem um livro igual emprestado");
+                }
+            } else {
+                System.out.println("Emprestimo do livro " + l.getTitulo() + " nao efetivado para " + this.nome + ". O usuario ja possui a quantidade maxima de livos");
+            }
+        } else {
+            System.out.println("Emprestimo do livro " + l.getTitulo() + " nao efetivado para " + this.nome + ". O livro esta reservado");
         }
     }
 
     public int getTempoEmprestimo() {
         return comportamentoAluguel.TempoEmprestimo();
     }
-    
+
+
     public void Devolver(Livro l) {
         for (Emprestimo e : emprestimos) {
             if (e.referToLivro(l)) {
@@ -77,54 +84,50 @@ public abstract class Usuario {
                 return;
             }
         }
-        System.out.println("O usuario "+ this.nome +" nao possui emprestimo em aberto do livro "+ l.getTitulo());
+        System.out.println("O usuario " + this.nome + " nao possui emprestimo em aberto do livro " + l.getTitulo());
     }
-    
+
     public void removeReserva(Livro livro) {
-    	for(Reserva r : reservas) {
-    		if(r.getLivro() == livro) {
-    			reservas.remove(r);
-    			break;
-    		}
-    	}
+        for (Reserva r : reservas) {
+            if (r.getLivro().equals(livro)) {
+                reservas.remove(r);
+                break;
+            }
+        }
     }
-    
+
     public String getNome() {
-    	return nome;
+        return nome;
     }
-    
-//    public void CalcDiasAtrasado(Emprestimo e) {
-//    	Calendar today = Calendar.getInstance();
-//    	suspensoAte = Calendar.getInstance();
-//    	today.add(Calendar.DAY_OF_YEAR, -(e.devolucaoData.get(Calendar.DAY_OF_YEAR)));
-//    	int diasAt = today.get(Calendar.DAY_OF_YEAR);
-//    	suspensoAte.add(Calendar.DATE, diasAt);
-//    }
-    
+
     public boolean jaAlugou(Livro l) {
         for (Emprestimo e : emprestimos) {
-            if (e.referToLivro(l)) return true;
+            if (e.referToLivro(l)) {
+                return true;
+            }
         }
         return false;
     }
-    
+
     public boolean estaAtrasado() {
         for (Emprestimo e : emprestimos) {
-            if (e.estaAtrasado()) return true;
+            if (e.estaAtrasado()) {
+                return true;
+            }
         }
         return false;
     }
-    
+
     public void reservaLivro(Livro l) {
         if (reservas.size() < 3) {
             Reserva r = new Reserva(this, l);
             Calendar d = Calendar.getInstance();
             r.setDataSolicitacao(d);
-            l.reserve(r);
             reservas.add(r);
-    		System.out.println("Reserva do livro "+ l.getTitulo() +" foi efetuada para "+ this.nome);
+            System.out.println("Reserva do livro " + l.getTitulo() + " foi efetuada para " + this.nome);
+        } else {
+            System.out.println("O usuario " + this.nome + " ja possui 3 reservas");
         }
-		System.out.println("O usu�rio "+ this.nome +" j� possui 3 reservas");
     }
 
     public String getId() {
@@ -138,32 +141,32 @@ public abstract class Usuario {
     public boolean identify(String id) {
         return this.id.equals(id);
     }
-    
+
     public int getNumEmprestimos() {
         return emprestimos.size();
     }
-    
+
     public void ConsultaUsuario() {
-		System.out.println("Emprestimos Correntes :");
-    	for(Emprestimo e : emprestimos) {
-    		System.out.println(e.getExemplar().getLivro().getTitulo());
-    		System.out.println(e.getDataEmprestimo());
-    		System.out.println(e.getDataDevolucao());
-    	}
-		System.out.println("Emprestimos Passados :");
-    	for(Emprestimo e : histEmprestimos) {
-    		System.out.println(e.getExemplar().getLivro().getTitulo());
-    		System.out.println(e.getDataEmprestimo());
-    		System.out.println(e.getDataDevolucao());
-    	}
-		System.out.println("Reservas :");
-    	for(Reserva r : reservas) {
-    		System.out.println(r.getLivro().getTitulo());
-    		System.out.println(r.getDataSolicitacao());
-    	}
-    	
-    }    
-    
+        System.out.println("Emprestimos Correntes :");
+        for (Emprestimo e : emprestimos) {
+            System.out.println(e.getExemplar().getLivro().getTitulo());
+            System.out.println(e.getDataEmprestimo());
+            System.out.println(e.getDataDevolucao());
+        }
+        System.out.println("Emprestimos Passados :");
+        for (Emprestimo e : histEmprestimos) {
+            System.out.println(e.getExemplar().getLivro().getTitulo());
+            System.out.println(e.getDataEmprestimo());
+            System.out.println(e.getDataDevolucao());
+        }
+        System.out.println("Reservas :");
+        for (Reserva r : reservas) {
+            System.out.println(r.getLivro().getTitulo());
+            System.out.println(r.getDataSolicitacao());
+        }
+
+    }
+
 //    public Usuario getUserExempEmprestado(Exemplar exemplar) {
 //    	for (Emprestimo e : emprestimos) {
 //    		if(e.getExemplar() == exemplar) {
@@ -172,5 +175,4 @@ public abstract class Usuario {
 //    	}
 //    	return null;
 //    }
-    
 }

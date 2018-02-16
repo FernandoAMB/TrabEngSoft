@@ -39,8 +39,8 @@ public class Exemplar {
         return livro;
     }
 
-    public Object getEstado() {
-        return estado.getClass();
+    public EstadoExemplar getEstado() {
+        return estado;
     }
 
     public void setEstado(EstadoExemplar novoEstado) {
@@ -69,6 +69,14 @@ public class Exemplar {
 
     public void devolver() {
 
+    }
+    
+    public void printInfo() {
+        System.out.println("	Codigo :"+ getId());
+        	System.out.println("	Estado : "+ getEstado().toString());
+        	if(getEstado().equals(Emprestado.getInstancia())) {
+                    System.out.println(getEmprestimo().getInfo());
+                }
     }
 
 //    public boolean reserve() {

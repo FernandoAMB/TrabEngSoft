@@ -7,4 +7,5 @@ public interface ComportamentoAluguel {
     public boolean aluguelPermitidoSusp(Usuario u, Livro l);
     public boolean aluguelPermitidoIgual(Usuario u, Livro l);
     public boolean aluguelPermitidoMax(Usuario u);
+    public boolean aluguelPermitidoReserva(Usuario u, Livro l);
 }
