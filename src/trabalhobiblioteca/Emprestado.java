@@ -1,11 +1,9 @@
 package trabalhobiblioteca;
 
 public class Emprestado implements EstadoExemplar {
-
-    public EstadoExemplar estado;
     private static Emprestado instancia;
 
-    public Emprestado() {
+    private Emprestado() {
     }
 
     public static Emprestado getInstancia() {

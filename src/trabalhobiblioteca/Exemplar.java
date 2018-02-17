@@ -67,10 +67,6 @@ public class Exemplar {
         estado.emprestou(this);
     }
 
-    public void devolver() {
-
-    }
-    
     public void printInfo() {
         System.out.println("	Codigo :"+ getId());
         	System.out.println("	Estado : "+ getEstado().toString());
@@ -79,11 +75,4 @@ public class Exemplar {
                 }
     }
 
-//    public boolean reserve() {
-//        if (!isReserved()) {
-//            this.reservado = true;
-//            return true;
-//        }
-//        return false;
-//    }
 }

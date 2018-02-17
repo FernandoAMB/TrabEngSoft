@@ -3,7 +3,6 @@ package trabalhobiblioteca;
 public class AluguelProfessor implements ComportamentoAluguel {
 
     public AluguelProfessor() {
-        // TODO Auto-generated constructor stub
     }
 
     @Override

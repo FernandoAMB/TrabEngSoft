@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Livro implements Subject {
 
-    public String codigo, titulo, editora, autores, edicao, dataPublicacao;
+    private String codigo, titulo, editora, autores, edicao, dataPublicacao;
     private List<Exemplar> listaExemplares;
     private List<Reserva> reservas;
     private ArrayList<ObserverLivro> observers = new ArrayList<ObserverLivro>();

@@ -167,12 +167,4 @@ public abstract class Usuario {
 
     }
 
-//    public Usuario getUserExempEmprestado(Exemplar exemplar) {
-//    	for (Emprestimo e : emprestimos) {
-//    		if(e.getExemplar() == exemplar) {
-//    	    	return this;
-//    		}
-//    	}
-//    	return null;
-//    }
 }

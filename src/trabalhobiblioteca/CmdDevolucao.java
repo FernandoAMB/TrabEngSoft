@@ -32,5 +32,4 @@ public class CmdDevolucao implements Command {
         }
         System.err.print("Comando " + args[0] + "errado! Tentou executar comando " + cmd); //isso nao deve acontecer nunca
     }
-    
 }

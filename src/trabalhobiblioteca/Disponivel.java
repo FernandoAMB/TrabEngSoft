@@ -23,8 +23,8 @@ public class Disponivel implements EstadoExemplar {
 		e.setEstado(Emprestado.getInstancia());
 	}
         
-        @Override
-        public String toString() {
-            return "Disponivel";
-        }
+    @Override
+    public String toString() {
+        return "Disponivel";
+    }
 }
